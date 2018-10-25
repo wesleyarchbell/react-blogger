@@ -10,25 +10,36 @@ class FullPost extends Component {
     }
 
     componentDidUpdate() {
-        if (this.props.selectedPostId !== null) {
-            axios.get('https://jsonplaceholder.typicode.com/posts/' + this.props.selectedPostId).then(response => {
-                this.setState({
-                    selectedPost: response.data
-                })
-            });
+        if (this.props.selectedPostId) {
+            if (!this.state.selectedPost || (this.state.selectedPost && this.state.selectedPost.id !== this.props.selectedPostId)) {
+                axios.get('/posts/' + this.props.selectedPostId).then(response => {
+                    this.setState({
+                        selectedPost: response.data
+                    })
+                });
+            }
         }
     }
 
-    render () {
-        let post = <p style={{textAlign: 'center'}}>Please select a Post!</p>;
+    deletePostHandler = () => {
+        axios.delete('/posts/' + this.state.selectedPost.id).then(response => {
+            this.setState({
+                selectedPost: null
+            });
+        });
+    }
+
+    render() {
+        let post = <p style={{ textAlign: 'center' }}>Please select a Post!</p>;
         if (this.state.selectedPost) {
+
             const selectedPost = this.state.selectedPost;
             post = (
                 <div className="FullPost">
                     <h1>{selectedPost.title}</h1>
                     <p>{selectedPost.body}</p>
                     <div className="Edit">
-                        <button className="Delete">Delete</button>
+                        <button onClick={this.deletePostHandler} className="Delete">Delete</button>
                     </div>
                 </div>
 

@@ -14,9 +14,9 @@ class Blog extends Component {
     }
 
     componentDidMount() {
-        axios.get('https://jsonplaceholder.typicode.com/posts').then(response => {
+        axios.get('/posts').then(response => {
                 const posts = response.data.slice(0, 4);
-                axios.get('https://jsonplaceholder.typicode.com/users').then(users => {
+                axios.get('/users').then(users => {
                     posts.forEach(post => {
                         const foundUser = users.data.filter(user => user.id === post.id);
                         if (foundUser.length > 0) {
