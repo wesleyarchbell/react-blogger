@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
-import { Route, Link } from 'react-router-dom';
+import { Route, NavLink } from 'react-router-dom';
 import Posts from '../../containers/Blog/Posts/Posts';
+import FullPost from '../../containers/Blog/FullPost/FullPost';
 import NewPost from '../../containers/Blog/NewPost/NewPost';
 
 import './Blog.css';
@@ -14,15 +15,16 @@ class Blog extends Component {
                 <header>
                     <nav>
                         <ul>
-                            <li><Link to="/">Home</Link></li>
-                            <li><Link to={{
-                                pathname: 'new-post'
-                            }}>New Post</Link></li>
+                            <li><NavLink to="/" exact>Home</NavLink></li>
+                            <li><NavLink to={{
+                                pathname: '/new-post'
+                            }}>New Post</NavLink></li>
                         </ul>
                     </nav>
                 </header>
-                <Route path="/" exact="true" component={Posts}/>
-                <Route path="/new-post" exact="true" component={NewPost}/>
+                <Route path="/" exact component={Posts}/>
+                <Route path="/new-post" exact component={NewPost}/>
+                <Route path="/:id" exact component={FullPost}/>
             </div>
 
         );
