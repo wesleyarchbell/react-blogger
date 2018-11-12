@@ -1,7 +1,9 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import axios from '../../../axios';
 import Post from '../../../components/Post/Post';
-import { Link } from 'react-router-dom';
+import FullPost from '../FullPost/FullPost';
+
+import { Link, Route } from 'react-router-dom';
 
 import './Posts.css';
 
@@ -21,11 +23,11 @@ class Posts extends Component {
                         post.author = foundUser[0].name;
                     }
                 });
-                this.setState({posts: posts});
+                this.setState({ posts: posts });
             });
         });
     }
-
+    
     postSelectedHandler = (id) => {
         this.setState({
             selectedPostId: id
@@ -35,7 +37,7 @@ class Posts extends Component {
     render() {
 
         const posts = this.state.posts.map(post => {
-            return <Link to={'/' + post.id} key={post.id}>
+            return <Link to={'/posts/' + post.id} key={post.id}>
                 <Post
                     title={post.title.substring(0, 20)}
                     author={post.author}
@@ -45,9 +47,12 @@ class Posts extends Component {
         });
 
         return (
-            <section className="Posts">
-                {posts}
-            </section>
+            <div>
+                <section className="Posts">
+                    {posts}
+                </section>
+                <Route path={this.props.match.url + '/:id' } exact component={FullPost} />
+            </div>
         );
     }
 }
